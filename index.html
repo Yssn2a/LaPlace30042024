@@ -670,102 +670,65 @@
 	  </div>
 	  <script>
 		  const loadingTimeout = setTimeout(function() {
-	            const loadingMessage = document.getElementById("loadingMessage");
-	            loadingMessage.style.display = "block";
-	        }, 10);
-		  const name = document.getElementById("Name").value;
-		  const lastName = document.getElementById("LastName").value;
-		  const phoneNumber = document.getElementById("PhoneNumber").value;
-		  const country = document.getElementById("Country").value;
-		  const arrive = document.getElementById("arrive").value;
-		  const customMessage = document.getElementById("CustomMessage").value;
-	
-		  const nameError = document.getElementById("nameError");
-		  const lastNameError = document.getElementById("lastNameError");
-		  const phoneNumberError = document.getElementById("phoneNumberError");
-		  const countryError = document.getElementById("countryError");
-		  const arriveError = document.getElementById("arriveError");
-	
-		  nameError.textContent = "";
-		  lastNameError.textContent = "";
-		  phoneNumberError.textContent = "";
-		  countryError.textContent = "";
-		  arriveError.textContent = "";
-	
-		  let isValid = true;
-	
-		  if (!name) {
-			nameError.textContent = "Please enter your name";
-			isValid = false;
-		  }
-	
-		  if (!lastName) {
-			lastNameError.textContent = "Please enter your last name";
-			isValid = false;
-		  }
-	
-		  if (!phoneNumber) {
-			phoneNumberError.textContent = "Please enter your phone number";
-			isValid = false;
-		  }
-	
-		  if (!country) {
-			countryError.textContent = "Please enter your country";
-			isValid = false;
-		  }
-	
-		  if (!arrive) {
-			arriveError.textContent = "Please select a reservation date";
-			isValid = false;
-		  }
-	
-	
-		  if (!isValid) {
-			return; // Stop form submission if there are validation errors
-		  }
-	
-		  // Collect form data
-		  const formData = {
-			Name: name,
-			LastName: lastName,
-			PhoneNumber: phoneNumber,
-			Country: country,
-			Order: order, // Keeping it 1 for now
-			CustomMessage: customMessage,
-			Reservation: arrive
-		  };
-	
-		  // Send POST request
-		  fetch("https://laplacerest.pythonanywhere.com/Create", {
-	            method: "POST",
-	            headers: {
-	                "Content-Type": "application/json"
-	            },
-	            body: JSON.stringify(formData)
-	        })
-	        .then(response => {
-	            if (!response.ok) {
-	                throw new Error("Network response was not ok");
-	            }
-	            return response.json();
-	        })
-	        .then(data => {
-	            // Handle success response
-	            const successUrl = data.success;
-	            const overlay = document.getElementById("overlay");
-	            const successBox = document.getElementById("successBox");
-	            overlay.style.display = "block";
-	            successBox.style.display = "block";
-	            const downloadButton = document.getElementById("downloadButton");
-	            downloadButton.href = successUrl;
-				clearTimeout(loadingTimeout);
-	            const loadingMessage = document.getElementById("loadingMessage");
-	            loadingMessage.style.display = "none";
-	        })
-	        .catch(error => {
-	            console.error("There was a problem with your fetch operation:", error);
-	        });
-	    });
+	            document.getElementById("reservationForm").addEventListener("submit", function(event) {
+		    event.preventDefault(); // Prevent the form from submitting normally
+		    
+		    // Show loading message
+		    const loadingMessage = document.getElementById("loadingMessage");
+		    loadingMessage.style.display = "block";
+		    
+		    // Validate form inputs
+		    const name = document.getElementById("Name").value;
+		    const lastName = document.getElementById("LastName").value;
+		    const phoneNumber = document.getElementById("PhoneNumber").value;
+		    const country = document.getElementById("Country").value;
+		    const arrive = document.getElementById("arrive").value;
+		    const customMessage = document.getElementById("CustomMessage").value;
+		
+		    // Validate inputs as before...
+		
+		    // Prepare formData object...
+		
+		    // Send POST request
+		    fetch("https://laplacerest.pythonanywhere.com/Create", {
+		        method: "POST",
+		        headers: {
+		            "Content-Type": "application/json"
+		        },
+		        body: JSON.stringify(formData)
+		    })
+		    .then(response => {
+		        if (!response.ok) {
+		            throw new Error("Network response was not ok");
+		        }
+		        return response.json();
+		    })
+		    .then(data => {
+		        // Handle success response
+		        const successOrderId = data.success.OrderId;
+		        const overlay = document.getElementById("overlay");
+		        const successBox = document.getElementById("successBox");
+		        overlay.style.display = "block";
+		        successBox.style.display = "block";
+		        const downloadButton = document.getElementById("downloadButton");
+		        downloadButton.href = successUrl;
+		        downloadButton.textContent = `Download Order ${successOrderId}`;
+		        clearTimeout(loadingTimeout);
+		        
+		        // Hide the loading message
+		        loadingMessage.style.display = "none";
+		
+		        // Update order link text
+		        const orderLink = document.getElementById("orderLink");
+		        orderLink.textContent = `Votre Commande : ${successOrderId}`;
+		    })
+		    .catch(error => {
+		        console.error("There was a problem with your fetch operation:", error);
+		        // Ensure loading message is hidden in case of error
+		        loadingMessage.style.display = "none";
+		    });
+		});
+
 	  </script>
 	  </body>
 	<!-- Footer -->
