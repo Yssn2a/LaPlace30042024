@@ -765,7 +765,7 @@
 	        downloadButton.textContent = `Download Order ${successOrderId}`;
 	        clearTimeout(loadingTimeout);
 	        const loadingMessage = document.getElementById("loadingMessage");
-	        loadingMessage.style.display = "none";
+	        loadingMessage.style.display = "block";
 	    })
 	    .catch(error => {
 	        console.error("There was a problem with your fetch operation:", error);
