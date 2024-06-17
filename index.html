@@ -639,6 +639,7 @@
 		  <div id="overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 999;">
 			<div id="successBox" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px; text-align: center;">
 				<p>Reservation success</p>
+				<a id="downloadButton" download="reservation.pdf" href="#" style="display: block;">Telecharger Details Reservation</a>
 			</div>
 		</div>
 		<div id="loadingMessage" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(255, 255, 255, 0.9); padding: 20px; border-radius: 10px; z-index: 9999;">
@@ -649,14 +650,27 @@
 		<p class="Price">Total Prix: <span id="totalPrice">0 DH</span></p>
 	  </div>
 	  <script>
+		document.getElementById("reservationForm").addEventListener("submit", function(event) {
+		  event.preventDefault(); // Prevent the form from submitting normally
+
+		  // Validate form inputs
+		  const loadingTimeout = setTimeout(function() {
+                const loadingMessage = document.getElementById("loadingMessage");
+                loadingMessage.style.display = "block";
+            }, 10);
+		  const name = document.getElementById("Name").value;
+		  const lastName = document.getElementById("LastName").value;
+		  const phoneNumber = document.getElementById("PhoneNumber").value;
+		  const country = document.getElementById("Country").value;
+		  const arrive = document.getElementById("arrive").value;
+		  const customMessage = document.getElementById("CustomMessage").value;
 	document.getElementById("reservationForm").addEventListener("submit", function(event) {
 	    event.preventDefault(); // Prevent the form from submitting normally
-	    
+
 	    // Validate form inputs
 	    const loadingTimeout = setTimeout(function() {
 	        const loadingMessage = document.getElementById("loadingMessage");
 	        loadingMessage.style.display = "block";
-	        loadingMessage.style.display = "none";
 	    }, 10);
 
 	    const name = document.getElementById("Name").value;
@@ -665,50 +679,84 @@
 	    const country = document.getElementById("Country").value;
 	    const arrive = document.getElementById("arrive").value;
 	    const customMessage = document.getElementById("CustomMessage").value;
-	
+
+		  const nameError = document.getElementById("nameError");
+		  const lastNameError = document.getElementById("lastNameError");
+		  const phoneNumberError = document.getElementById("phoneNumberError");
+		  const countryError = document.getElementById("countryError");
+		  const arriveError = document.getElementById("arriveError");
 	    const nameError = document.getElementById("nameError");
 	    const lastNameError = document.getElementById("lastNameError");
 	    const phoneNumberError = document.getElementById("phoneNumberError");
 	    const countryError = document.getElementById("countryError");
 	    const arriveError = document.getElementById("arriveError");
-	
+
+		  nameError.textContent = "";
+		  lastNameError.textContent = "";
+		  phoneNumberError.textContent = "";
+		  countryError.textContent = "";
+		  arriveError.textContent = "";
 	    nameError.textContent = "";
 	    lastNameError.textContent = "";
 	    phoneNumberError.textContent = "";
 	    countryError.textContent = "";
 	    arriveError.textContent = "";
-	
+
+		  let isValid = true;
 	    let isValid = true;
-	
+
+		  if (!name) {
+			nameError.textContent = "Please enter your name";
+			isValid = false;
+		  }
 	    if (!name) {
 	        nameError.textContent = "Please enter your name";
 	        isValid = false;
 	    }
-	
+
+		  if (!lastName) {
+			lastNameError.textContent = "Please enter your last name";
+			isValid = false;
+		  }
 	    if (!lastName) {
 	        lastNameError.textContent = "Please enter your last name";
 	        isValid = false;
 	    }
-	
+
+		  if (!phoneNumber) {
+			phoneNumberError.textContent = "Please enter your phone number";
+			isValid = false;
+		  }
 	    if (!phoneNumber) {
 	        phoneNumberError.textContent = "Please enter your phone number";
 	        isValid = false;
 	    }
-	
+
+		  if (!country) {
+			countryError.textContent = "Please enter your country";
+			isValid = false;
+		  }
 	    if (!country) {
 	        countryError.textContent = "Please enter your country";
 	        isValid = false;
 	    }
-	
+
+		  if (!arrive) {
+			arriveError.textContent = "Please select a reservation date";
+			isValid = false;
+		  }
 	    if (!arrive) {
 	        arriveError.textContent = "Please select a reservation date";
 	        isValid = false;
 	    }
-	
+
 	    if (!isValid) {
 	        return; // Stop form submission if there are validation errors
 	    }
-	
+
+		  if (!isValid) {
+			return; // Stop form submission if there are validation errors
+		  }
 	    // Collect form data
 	    const formData = {
 	        Name: name,
@@ -719,7 +767,49 @@
 	        CustomMessage: customMessage,
 	        Reservation: arrive
 	    };
-	
+
+		  // Collect form data
+		  const formData = {
+			Name: name,
+			LastName: lastName,
+			PhoneNumber: phoneNumber,
+			Country: country,
+			Order: order, // Keeping it 1 for now
+			CustomMessage: customMessage,
+			Reservation: arrive
+		  };
+
+		  // Send POST request
+		  fetch("https://laplacerest.pythonanywhere.com/Create", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Handle success response
+                const successUrl = data.success;
+                const overlay = document.getElementById("overlay");
+                const successBox = document.getElementById("successBox");
+                overlay.style.display = "block";
+                successBox.style.display = "block";
+                const downloadButton = document.getElementById("downloadButton");
+                downloadButton.href = successUrl;
+				clearTimeout(loadingTimeout);
+                const loadingMessage = document.getElementById("loadingMessage");
+                loadingMessage.style.display = "none";
+            })
+            .catch(error => {
+                console.error("There was a problem with your fetch operation:", error);
+            });
+        });
 	    // Send POST request
 	    fetch("https://laplacerest.pythonanywhere.com/Create", {
 	        method: "POST",
