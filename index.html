@@ -660,109 +660,112 @@
 			<div id="successBox" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px; text-align: center;">
 				<p>Reservation success</p>
 			</div>
+			    <div id="loadingMessage" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(255, 255, 255, 0.8); padding: 20px; text-align: center;">
+			        <p>Loading...</p>
+			    </div>
 		</div>
 	  
 		<div id="itemDisplay"></div>
 		<p class="Price">Total Prix: <span id="totalPrice">0 DH</span></p>
 	  </div>
 	  <script>
-	document.getElementById("reservationForm").addEventListener("submit", function(event) {
-	    event.preventDefault(); // Prevent the form from submitting normally
-	    
-	    // Validate form inputs
-	    const loadingTimeout = setTimeout(function() {
-	    
-	    const name = document.getElementById("Name").value;
-	    const lastName = document.getElementById("LastName").value;
-	    const phoneNumber = document.getElementById("PhoneNumber").value;
-	    const country = document.getElementById("Country").value;
-	    const arrive = document.getElementById("arrive").value;
-	    const customMessage = document.getElementById("CustomMessage").value;
+		  const loadingTimeout = setTimeout(function() {
+	            const loadingMessage = document.getElementById("loadingMessage");
+	            loadingMessage.style.display = "block";
+	        }, 10);
+		  const name = document.getElementById("Name").value;
+		  const lastName = document.getElementById("LastName").value;
+		  const phoneNumber = document.getElementById("PhoneNumber").value;
+		  const country = document.getElementById("Country").value;
+		  const arrive = document.getElementById("arrive").value;
+		  const customMessage = document.getElementById("CustomMessage").value;
 	
-	    const nameError = document.getElementById("nameError");
-	    const lastNameError = document.getElementById("lastNameError");
-	    const phoneNumberError = document.getElementById("phoneNumberError");
-	    const countryError = document.getElementById("countryError");
-	    const arriveError = document.getElementById("arriveError");
+		  const nameError = document.getElementById("nameError");
+		  const lastNameError = document.getElementById("lastNameError");
+		  const phoneNumberError = document.getElementById("phoneNumberError");
+		  const countryError = document.getElementById("countryError");
+		  const arriveError = document.getElementById("arriveError");
 	
-	    nameError.textContent = "";
-	    lastNameError.textContent = "";
-	    phoneNumberError.textContent = "";
-	    countryError.textContent = "";
-	    arriveError.textContent = "";
+		  nameError.textContent = "";
+		  lastNameError.textContent = "";
+		  phoneNumberError.textContent = "";
+		  countryError.textContent = "";
+		  arriveError.textContent = "";
 	
-	    let isValid = true;
+		  let isValid = true;
 	
-	    if (!name) {
-	        nameError.textContent = "Please enter your name";
-	        isValid = false;
-	    }
+		  if (!name) {
+			nameError.textContent = "Please enter your name";
+			isValid = false;
+		  }
 	
-	    if (!lastName) {
-	        lastNameError.textContent = "Please enter your last name";
-	        isValid = false;
-	    }
+		  if (!lastName) {
+			lastNameError.textContent = "Please enter your last name";
+			isValid = false;
+		  }
 	
-	    if (!phoneNumber) {
-	        phoneNumberError.textContent = "Please enter your phone number";
-	        isValid = false;
-	    }
+		  if (!phoneNumber) {
+			phoneNumberError.textContent = "Please enter your phone number";
+			isValid = false;
+		  }
 	
-	    if (!country) {
-	        countryError.textContent = "Please enter your country";
-	        isValid = false;
-	    }
+		  if (!country) {
+			countryError.textContent = "Please enter your country";
+			isValid = false;
+		  }
 	
-	    if (!arrive) {
-	        arriveError.textContent = "Please select a reservation date";
-	        isValid = false;
-	    }
+		  if (!arrive) {
+			arriveError.textContent = "Please select a reservation date";
+			isValid = false;
+		  }
 	
-	    if (!isValid) {
-	        return; // Stop form submission if there are validation errors
-	    }
 	
-	    // Collect form data
-	    const formData = {
-	        Name: name,
-	        LastName: lastName,
-	        PhoneNumber: phoneNumber,
-	        Country: country,
-	        Order: 1, // Keeping it 1 for now
-	        CustomMessage: customMessage,
-	        Reservation: arrive
-	    };
+		  if (!isValid) {
+			return; // Stop form submission if there are validation errors
+		  }
 	
-	    // Send POST request
-	    fetch("https://laplacerest.pythonanywhere.com/Create", {
-	        method: "POST",
-	        headers: {
-	            "Content-Type": "application/json"
-	        },
-	        body: JSON.stringify(formData)
-	    })
-	    .then(response => {
-	        if (!response.ok) {
-	            throw new Error("Network response was not ok");
-	        }
-	        return response.json();
-	    })
-	    .then(data => {
-	        // Handle success response
-	        const successOrderId = data.success.OrderId;
-	        const overlay = document.getElementById("overlay");
-	        const successBox = document.getElementById("successBox");
-	        overlay.style.display = "block";
-	        successBox.style.display = "block";
-	        const downloadButton = document.getElementById("downloadButton");
-	        downloadButton.href = successUrl;
-	        downloadButton.textContent = `Download Order ${successOrderId}`;
-	        clearTimeout(loadingTimeout);
-	    })
-	    .catch(error => {
-	        console.error("There was a problem with your fetch operation:", error);
+		  // Collect form data
+		  const formData = {
+			Name: name,
+			LastName: lastName,
+			PhoneNumber: phoneNumber,
+			Country: country,
+			Order: order, // Keeping it 1 for now
+			CustomMessage: customMessage,
+			Reservation: arrive
+		  };
+	
+		  // Send POST request
+		  fetch("https://laplacerest.pythonanywhere.com/Create", {
+	            method: "POST",
+	            headers: {
+	                "Content-Type": "application/json"
+	            },
+	            body: JSON.stringify(formData)
+	        })
+	        .then(response => {
+	            if (!response.ok) {
+	                throw new Error("Network response was not ok");
+	            }
+	            return response.json();
+	        })
+	        .then(data => {
+	            // Handle success response
+	            const successUrl = data.success;
+	            const overlay = document.getElementById("overlay");
+	            const successBox = document.getElementById("successBox");
+	            overlay.style.display = "block";
+	            successBox.style.display = "block";
+	            const downloadButton = document.getElementById("downloadButton");
+	            downloadButton.href = successUrl;
+				clearTimeout(loadingTimeout);
+	            const loadingMessage = document.getElementById("loadingMessage");
+	            loadingMessage.style.display = "none";
+	        })
+	        .catch(error => {
+	            console.error("There was a problem with your fetch operation:", error);
+	        });
 	    });
-	});
 	  </script>
 	  </body>
 	<!-- Footer -->
