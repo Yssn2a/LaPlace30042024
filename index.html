@@ -661,9 +661,6 @@
 				<p>Reservation success</p>
 			</div>
 		</div>
-		<div id="loadingMessage" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(255, 255, 255, 0.9); padding: 20px; border-radius: 10px; z-index: 9999;">
-			<p>Attendez...</p>
-		</div>
 	  
 		<div id="itemDisplay"></div>
 		<p class="Price">Total Prix: <span id="totalPrice">0 DH</span></p>
@@ -674,9 +671,6 @@
 	    
 	    // Validate form inputs
 	    const loadingTimeout = setTimeout(function() {
-	        const loadingMessage = document.getElementById("loadingMessage");
-	        loadingMessage.style.display = "none";
-	    }, 10);
 	    
 	    const name = document.getElementById("Name").value;
 	    const lastName = document.getElementById("LastName").value;
@@ -764,8 +758,6 @@
 	        downloadButton.href = successUrl;
 	        downloadButton.textContent = `Download Order ${successOrderId}`;
 	        clearTimeout(loadingTimeout);
-	        const loadingMessage = document.getElementById("loadingMessage");
-	        loadingMessage.style.display = "none";
 	    })
 	    .catch(error => {
 	        console.error("There was a problem with your fetch operation:", error);
