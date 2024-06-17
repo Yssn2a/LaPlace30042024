@@ -102,17 +102,17 @@
 						<div class="intro_text">
 							<p>Un charmant restaurant au milieu de village ait ben haddou .
 								Ait –ben haddou est un ksar sur la liste du patrimoine mondial de l’Unesco
-								Et a été utilisé comme scène de tournage pour de nombreux films tel que :
+								Et a été utilisé comme scène de tournage pour de nombreux films tel que :
 								Lawrence d’Arabie au Gladiator.
-								Forts de notre expérience de 21 ans de table pour le restaurant berbère, nous
-								proposons désormais dans notre tout nouveau restaurant marocain, une cuisine à tous
-								les gourmands qui séjournent à ait ben haddou.
-								 Le temps d&#39;un déjeuner ou d&#39;un dîner, venez  découvrir les saveurs de nos plats typiquement
+								Forts de notre expérience de 21 ans de table pour le restaurant berbère, nous
+								proposons désormais dans notre tout nouveau restaurant marocain, une cuisine à tous
+								les gourmands qui séjournent à ait ben haddou.
+								 Le temps d&#39;un déjeuner ou d&#39;un dîner, venez  découvrir les saveurs de nos plats typiquement
 								marocains avec une touche typiquement berbère, préparés avec l&#39;Amour du métier. Tous nos
 								produits sont frais, et proviennent de producteurs locaux. Dès que nous le pouvons, nous
 								favorisons les producteurs qui se lancent dans l&#39;agriculture biologique, qui se développe de
 								plus en plus au Maroc.
-								 Faire l&#39;expérience du restaurant la place, c&#39;est découvrir la qualité et l&#39;authenticité de la
+								 Faire l&#39;expérience du restaurant la place, c&#39;est découvrir la qualité et l&#39;authenticité de la
 								cuisine marocaine berbère, relevée par ses épices, si délicats à utiliser. 1 salons et 1 terrasse
 								vous accueillent : les tables en boit, les canapés en boit et confortables. Les murs sont
 								recouverts de toitures anciennes et les plafonds sont à l&#39;origine de nombreuses traditions,
@@ -652,7 +652,7 @@
 	  <script>
 		document.getElementById("reservationForm").addEventListener("submit", function(event) {
 		  event.preventDefault(); // Prevent the form from submitting normally
-
+		  
 		  // Validate form inputs
 		  const loadingTimeout = setTimeout(function() {
                 const loadingMessage = document.getElementById("loadingMessage");
@@ -664,110 +664,51 @@
 		  const country = document.getElementById("Country").value;
 		  const arrive = document.getElementById("arrive").value;
 		  const customMessage = document.getElementById("CustomMessage").value;
-	document.getElementById("reservationForm").addEventListener("submit", function(event) {
-	    event.preventDefault(); // Prevent the form from submitting normally
-
-	    // Validate form inputs
-	    const loadingTimeout = setTimeout(function() {
-	        const loadingMessage = document.getElementById("loadingMessage");
-	        loadingMessage.style.display = "block";
-	    }, 10);
-
-	    const name = document.getElementById("Name").value;
-	    const lastName = document.getElementById("LastName").value;
-	    const phoneNumber = document.getElementById("PhoneNumber").value;
-	    const country = document.getElementById("Country").value;
-	    const arrive = document.getElementById("arrive").value;
-	    const customMessage = document.getElementById("CustomMessage").value;
-
+	
 		  const nameError = document.getElementById("nameError");
 		  const lastNameError = document.getElementById("lastNameError");
 		  const phoneNumberError = document.getElementById("phoneNumberError");
 		  const countryError = document.getElementById("countryError");
 		  const arriveError = document.getElementById("arriveError");
-	    const nameError = document.getElementById("nameError");
-	    const lastNameError = document.getElementById("lastNameError");
-	    const phoneNumberError = document.getElementById("phoneNumberError");
-	    const countryError = document.getElementById("countryError");
-	    const arriveError = document.getElementById("arriveError");
-
+	
 		  nameError.textContent = "";
 		  lastNameError.textContent = "";
 		  phoneNumberError.textContent = "";
 		  countryError.textContent = "";
 		  arriveError.textContent = "";
-	    nameError.textContent = "";
-	    lastNameError.textContent = "";
-	    phoneNumberError.textContent = "";
-	    countryError.textContent = "";
-	    arriveError.textContent = "";
-
+	
 		  let isValid = true;
-	    let isValid = true;
-
+	
 		  if (!name) {
 			nameError.textContent = "Please enter your name";
 			isValid = false;
 		  }
-	    if (!name) {
-	        nameError.textContent = "Please enter your name";
-	        isValid = false;
-	    }
-
+	
 		  if (!lastName) {
 			lastNameError.textContent = "Please enter your last name";
 			isValid = false;
 		  }
-	    if (!lastName) {
-	        lastNameError.textContent = "Please enter your last name";
-	        isValid = false;
-	    }
-
+	
 		  if (!phoneNumber) {
 			phoneNumberError.textContent = "Please enter your phone number";
 			isValid = false;
 		  }
-	    if (!phoneNumber) {
-	        phoneNumberError.textContent = "Please enter your phone number";
-	        isValid = false;
-	    }
-
+	
 		  if (!country) {
 			countryError.textContent = "Please enter your country";
 			isValid = false;
 		  }
-	    if (!country) {
-	        countryError.textContent = "Please enter your country";
-	        isValid = false;
-	    }
-
+	
 		  if (!arrive) {
 			arriveError.textContent = "Please select a reservation date";
 			isValid = false;
 		  }
-	    if (!arrive) {
-	        arriveError.textContent = "Please select a reservation date";
-	        isValid = false;
-	    }
-
-	    if (!isValid) {
-	        return; // Stop form submission if there are validation errors
-	    }
-
+	
+	
 		  if (!isValid) {
 			return; // Stop form submission if there are validation errors
 		  }
-	    // Collect form data
-	    const formData = {
-	        Name: name,
-	        LastName: lastName,
-	        PhoneNumber: phoneNumber,
-	        Country: country,
-	        Order: 1, // Keeping it 1 for now
-	        CustomMessage: customMessage,
-	        Reservation: arrive
-	    };
-
+	
 		  // Collect form data
 		  const formData = {
 			Name: name,
@@ -810,38 +751,6 @@
                 console.error("There was a problem with your fetch operation:", error);
             });
         });
-	    // Send POST request
-	    fetch("https://laplacerest.pythonanywhere.com/Create", {
-	        method: "POST",
-	        headers: {
-	            "Content-Type": "application/json"
-	        },
-	        body: JSON.stringify(formData)
-	    })
-	    .then(response => {
-	        if (!response.ok) {
-	            throw new Error("Network response was not ok");
-	        }
-	        return response.json();
-	    })
-	    .then(data => {
-	        // Handle success response
-	        const successOrderId = data.success.OrderId;
-	        const overlay = document.getElementById("overlay");
-	        const successBox = document.getElementById("successBox");
-	        overlay.style.display = "block";
-	        successBox.style.display = "block";
-	        const downloadButton = document.getElementById("downloadButton");
-	        downloadButton.href = successUrl;
-	        downloadButton.textContent = `Download Order ${successOrderId}`;
-	        clearTimeout(loadingTimeout);
-	        const loadingMessage = document.getElementById("loadingMessage");
-	        loadingMessage.style.display = "none";
-	    })
-	    .catch(error => {
-	        console.error("There was a problem with your fetch operation:", error);
-	    });
-	});
 	  </script>
 	  </body>
 	<!-- Footer -->
