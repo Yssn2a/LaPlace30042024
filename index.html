@@ -55,7 +55,6 @@
 <body><div class="super_container">
 	
 	<!-- Header -->
-
 	<header class="header">
 		<div class="container">
 			<div class="row">
@@ -71,10 +70,8 @@
 			</div>
 		</div>
 	</header>
-
 	
 	<!-- Home -->
-
 	<div class="home">
 		<div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="images/home.jpg" data-speed="0.8"></div>
 		<div class="home_container">
@@ -94,9 +91,7 @@
 		</div>
 		<div class="scroll_icon"></div>
 	</div>
-
 	<!-- Intro -->
-
 	<div class="intro">
 		<div class="container">
 			<div class="row">
@@ -107,17 +102,17 @@
 						<div class="intro_text">
 							<p>Un charmant restaurant au milieu de village ait ben haddou .
 								Ait –ben haddou est un ksar sur la liste du patrimoine mondial de l’Unesco
-								Et a été utilisé comme scène de tournage pour de nombreux films tel que :
+								Et a été utilisé comme scène de tournage pour de nombreux films tel que :
 								Lawrence d’Arabie au Gladiator.
-								Forts de notre expérience de 21 ans de table pour le restaurant berbère, nous
-								proposons désormais dans notre tout nouveau restaurant marocain, une cuisine à tous
-								les gourmands qui séjournent à ait ben haddou.
-								 Le temps d&#39;un déjeuner ou d&#39;un dîner, venez  découvrir les saveurs de nos plats typiquement
+								Forts de notre expérience de 21 ans de table pour le restaurant berbère, nous
+								proposons désormais dans notre tout nouveau restaurant marocain, une cuisine à tous
+								les gourmands qui séjournent à ait ben haddou.
+								 Le temps d&#39;un déjeuner ou d&#39;un dîner, venez  découvrir les saveurs de nos plats typiquement
 								marocains avec une touche typiquement berbère, préparés avec l&#39;Amour du métier. Tous nos
 								produits sont frais, et proviennent de producteurs locaux. Dès que nous le pouvons, nous
 								favorisons les producteurs qui se lancent dans l&#39;agriculture biologique, qui se développe de
 								plus en plus au Maroc.
-								 Faire l&#39;expérience du restaurant la place, c&#39;est découvrir la qualité et l&#39;authenticité de la
+								 Faire l&#39;expérience du restaurant la place, c&#39;est découvrir la qualité et l&#39;authenticité de la
 								cuisine marocaine berbère, relevée par ses épices, si délicats à utiliser. 1 salons et 1 terrasse
 								vous accueillent : les tables en boit, les canapés en boit et confortables. Les murs sont
 								recouverts de toitures anciennes et les plafonds sont à l&#39;origine de nombreuses traditions,
@@ -137,9 +132,7 @@
 			</div>
 		</div>
 	</div>
-
 	<!-- The Menu -->
-
 	<div class="themenu">
 		<div class="container">
 			<div class="row">
@@ -360,9 +353,7 @@
 					}
 				  </script>
 				</body> 
-
 	<!-- Reservations -->
-
 	<style>
 		body {
 		  font-family: Arial, sans-serif;
@@ -405,20 +396,16 @@
 			border-radius: 10px;
 			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 			}
-
 			.form-group {
 			margin-bottom: 20px;
 			}
-
 			.heading {
 			font-size: 24px;
 			margin-bottom: 10px;
 			}
-
 			.controls {
 			margin-bottom: 10px;
 			}
-
 			.floatLabel {
 			width: 100%;
 			padding: 10px;
@@ -426,34 +413,28 @@
 			border-radius: 5px;
 			font-size: 16px;
 			}
-
 			.floatLabel:focus {
 			outline: none;
 			border-color: #007bff;
 			}
-
 			.error-message {
 			display: block;
 			color: red;
 			font-size: 12px;
 			margin-top: 5px;
 			}
-
 			.grid {
 			display: grid;
 			grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 			gap: 10px;
 			}
-
 			.info-text {
 			font-size: 16px;
 			margin-bottom: 10px;
 			}
-
 			textarea.floatLabel {
 			min-height: 100px;
 			}
-
 			button.col-1-4 {
 			width: 100%;
 			width: 80px;
@@ -468,7 +449,6 @@
 			border: none;
 			cursor: pointer;
 			}
-
 			button.col-1-4:hover {
 			background-color: darkgreen;
 			}
@@ -660,83 +640,124 @@
 			<div id="successBox" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px; text-align: center;">
 				<p>Reservation success</p>
 			</div>
-			    <div id="loadingMessage" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(255, 255, 255, 0.8); padding: 20px; text-align: center;">
-			        <p>Loading...</p>
-			    </div>
+		</div>
+		<div id="loadingMessage" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(255, 255, 255, 0.9); padding: 20px; border-radius: 10px; z-index: 9999;">
+			<p>Attendez...</p>
 		</div>
 	  
 		<div id="itemDisplay"></div>
 		<p class="Price">Total Prix: <span id="totalPrice">0 DH</span></p>
 	  </div>
 	  <script>
-		  const loadingTimeout = setTimeout(function() {
-	            document.getElementById("reservationForm").addEventListener("submit", function(event) {
-		    event.preventDefault(); // Prevent the form from submitting normally
-		    
-		    // Show loading message
-		    const loadingMessage = document.getElementById("loadingMessage");
-		    loadingMessage.style.display = "block";
-		    
-		    // Validate form inputs
-		    const name = document.getElementById("Name").value;
-		    const lastName = document.getElementById("LastName").value;
-		    const phoneNumber = document.getElementById("PhoneNumber").value;
-		    const country = document.getElementById("Country").value;
-		    const arrive = document.getElementById("arrive").value;
-		    const customMessage = document.getElementById("CustomMessage").value;
-		
-		    // Validate inputs as before...
-		
-		    // Prepare formData object...
-		
-		    // Send POST request
-		    fetch("https://laplacerest.pythonanywhere.com/Create", {
-		        method: "POST",
-		        headers: {
-		            "Content-Type": "application/json"
-		        },
-		        body: JSON.stringify(formData)
-		    })
-		    .then(response => {
-		        if (!response.ok) {
-		            throw new Error("Network response was not ok");
-		        }
-		        return response.json();
-		    })
-		    .then(data => {
-		        // Handle success response
-		        const successOrderId = data.success.OrderId;
-		        const overlay = document.getElementById("overlay");
-		        const successBox = document.getElementById("successBox");
-		        overlay.style.display = "block";
-		        successBox.style.display = "block";
-		        const downloadButton = document.getElementById("downloadButton");
-		        downloadButton.href = successUrl;
-		        downloadButton.textContent = `Download Order ${successOrderId}`;
-		        clearTimeout(loadingTimeout);
-		        
-		        // Hide the loading message
-		        loadingMessage.style.display = "none";
-		
-		        // Update order link text
-		        const orderLink = document.getElementById("orderLink");
-		        orderLink.textContent = `Votre Commande : ${successOrderId}`;
-		    })
-		    .catch(error => {
-		        console.error("There was a problem with your fetch operation:", error);
-		        // Ensure loading message is hidden in case of error
-		        loadingMessage.style.display = "none";
-		    });
-		});
+	document.getElementById("reservationForm").addEventListener("submit", function(event) {
+	    event.preventDefault(); // Prevent the form from submitting normally
+	    
+	    // Validate form inputs
+	    const loadingTimeout = setTimeout(function() {
+	        const loadingMessage = document.getElementById("loadingMessage");
+	        loadingMessage.style.display = "block";
+	        loadingMessage.style.display = "none";
+	    }, 10);
 
+	    const name = document.getElementById("Name").value;
+	    const lastName = document.getElementById("LastName").value;
+	    const phoneNumber = document.getElementById("PhoneNumber").value;
+	    const country = document.getElementById("Country").value;
+	    const arrive = document.getElementById("arrive").value;
+	    const customMessage = document.getElementById("CustomMessage").value;
+	
+	    const nameError = document.getElementById("nameError");
+	    const lastNameError = document.getElementById("lastNameError");
+	    const phoneNumberError = document.getElementById("phoneNumberError");
+	    const countryError = document.getElementById("countryError");
+	    const arriveError = document.getElementById("arriveError");
+	
+	    nameError.textContent = "";
+	    lastNameError.textContent = "";
+	    phoneNumberError.textContent = "";
+	    countryError.textContent = "";
+	    arriveError.textContent = "";
+	
+	    let isValid = true;
+	
+	    if (!name) {
+	        nameError.textContent = "Please enter your name";
+	        isValid = false;
+	    }
+	
+	    if (!lastName) {
+	        lastNameError.textContent = "Please enter your last name";
+	        isValid = false;
+	    }
+	
+	    if (!phoneNumber) {
+	        phoneNumberError.textContent = "Please enter your phone number";
+	        isValid = false;
+	    }
+	
+	    if (!country) {
+	        countryError.textContent = "Please enter your country";
+	        isValid = false;
+	    }
+	
+	    if (!arrive) {
+	        arriveError.textContent = "Please select a reservation date";
+	        isValid = false;
+	    }
+	
+	    if (!isValid) {
+	        return; // Stop form submission if there are validation errors
+	    }
+	
+	    // Collect form data
+	    const formData = {
+	        Name: name,
+	        LastName: lastName,
+	        PhoneNumber: phoneNumber,
+	        Country: country,
+	        Order: 1, // Keeping it 1 for now
+	        CustomMessage: customMessage,
+	        Reservation: arrive
+	    };
+	
+	    // Send POST request
+	    fetch("https://laplacerest.pythonanywhere.com/Create", {
+	        method: "POST",
+	        headers: {
+	            "Content-Type": "application/json"
+	        },
+	        body: JSON.stringify(formData)
+	    })
+	    .then(response => {
+	        if (!response.ok) {
+	            throw new Error("Network response was not ok");
+	        }
+	        return response.json();
+	    })
+	    .then(data => {
+	        // Handle success response
+	        const successOrderId = data.success.OrderId;
+	        const overlay = document.getElementById("overlay");
+	        const successBox = document.getElementById("successBox");
+	        overlay.style.display = "block";
+	        successBox.style.display = "block";
+	        const downloadButton = document.getElementById("downloadButton");
+	        downloadButton.href = successUrl;
+	        downloadButton.textContent = `Download Order ${successOrderId}`;
+	        clearTimeout(loadingTimeout);
+	        const loadingMessage = document.getElementById("loadingMessage");
+	        loadingMessage.style.display = "none";
+	    })
+	    .catch(error => {
+	        console.error("There was a problem with your fetch operation:", error);
+	    });
+	});
 	  </script>
 	  </body>
 	<!-- Footer -->
-
 	<footer class="footer">
 		<div class="container">
 			<div class="row">
-
 				<!-- Footer Logo -->
 				<div class="col-lg-3 footer_col">
 					<div class="footer_logo">
@@ -747,7 +768,6 @@
 <!-- <p style="line-height: 1.2;">Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a></p> -->
 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></div>
 				</div>
-
 				<!-- Footer About -->
 				<div class="col-lg-6 footer_col">
 					<div class="footer_about">
@@ -772,7 +792,6 @@
 		</div>
 	</footer>
 </div>
-
 <script src="js/jquery-3.2.1.min.js"></script>
 <script src="styles/bootstrap-4.1.2/popper.js"></script>
 <script src="styles/bootstrap-4.1.2/bootstrap.min.js"></script>
