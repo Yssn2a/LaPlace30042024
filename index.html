@@ -638,7 +638,7 @@
 		  </form>
 		  <div id="overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 999;">
 			<div id="successBox" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px; text-align: center;">
-				<p>Reservation success</p>
+				<p>Merci Pour Votre Reservation Votre Numero d ordre : </p>
 				<a id="downloadButton" download="reservation.pdf" href="#" style="display: none;">Telecharger Details Reservation</a>
 			</div>
 		</div>
@@ -735,7 +735,12 @@
                 return response.json();
             })
             .then(data => {
-                // Handle success response
+            // Parse the success object from the response
+                const successData = JSON.parse(data.success.replace(/'/g, '"'));
+                const orderId = successData.success.OrderId;
+
+            // Update the HTML content with the extracted OrderId
+                document.getElementById('orderId').textContent = orderId;
                 const successUrl = data.success;
                 const overlay = document.getElementById("overlay");
                 const successBox = document.getElementById("successBox");
